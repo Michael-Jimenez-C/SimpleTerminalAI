@@ -1,0 +1,14 @@
+Gemini on terminal
+
+ai [OPTIONS] promt
+
+
+OPTIONS
+
+	-i	--init		Create the config file for this aplication
+	-o			Configure the default promt for the AI, changing the behaviour of the AI
+	-t	--API_KEY	Configure the API-KEY
+	-s	--save		Toggle the history of chats
+	-r	--read		Show the history
+		--s2t		Speech to text ui
+		--configure	Open the configuration file

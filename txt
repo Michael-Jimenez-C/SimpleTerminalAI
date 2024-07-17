@@ -1,0 +1,21 @@
+[1;34mUsuarios:[1;0m como se usa el modo octal de chmod 
+[1;31mGemini:[1;0m El modo octal de `chmod` te permite establecer permisos de archivos y directorios de una manera concisa y eficiente. En lugar de usar nombres como "leer", "escribir" o "ejecutar", se utiliza un sistema numérico de tres dígitos (0-7) para representar los permisos:
+
+* **Primer dígito:** Representa los permisos del propietario del archivo/directorio.
+* **Segundo dígito:** Representa los permisos del grupo del archivo/directorio.
+* **Tercer dígito:** Representa los permisos de otros usuarios.
+
+Cada dígito se calcula sumando los valores de los permisos:
+
+* **4:** Lectura
+* **2:** Escritura
+* **1:** Ejecución
+
+**Ejemplo:** `chmod 755 archivo.txt`
+
+* **7 (111):** El propietario tiene permisos de lectura (4), escritura (2) y ejecución (1).
+* **5 (101):** El grupo tiene permisos de lectura (4) y ejecución (1).
+* **5 (101):** Los demás usuarios tienen permisos de lectura (4) y ejecución (1).
+
+Este comando establece permisos de lectura y ejecución para el propietario y el grupo, y solo permisos de lectura para otros usuarios. 
+
