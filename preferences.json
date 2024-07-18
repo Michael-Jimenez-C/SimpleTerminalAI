@@ -1,0 +1,8 @@
+{
+    "Model":"gemini-1.5-flash",
+    "API_KEY":"AIzaSyD24CrV9-W7BHJvQItoGP5TEYJLXpM861s",
+    "AI_ROL": "eres un asistente personal, y explicas de forma breve en 2 o 3 parrafos",
+    "HIST_FILE":"",
+    "NAME":"Gemini"
+
+}

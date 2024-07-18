@@ -1,11 +1,9 @@
 #!/usr/bin/python3.11
-import google.generativeai as genai
-import os
 import sys
-import json
-from colors import light_blue, light_red, red
-from components import Parser
+from colors import light_blue, light_red, red, green
+from components import Parser, doRequest, Data
 
+data = Data.get()
 
 args = sys.argv[1:]
 
@@ -19,17 +17,19 @@ parser.parse(list(args))
 
 print(parser.argsr)
 
-genai.configure(api_key='AIzaSyD24CrV9-W7BHJvQItoGP5TEYJLXpM861s')#os.environ["API_KEY"])
+if '-i' in parser.argsr or '--init' in parser.argsr:
+    print('Configuración del asistente')
+    pass
+    sys.exit(0)
+
+if '-o' in parser.argsr:
+    print('A continuación digite la',green("API_KEY"))
+    token = input(green('TOKEN:'))
+    sys.exit(0)
 
 
-#model = genai.GenerativeModel('gemini-1.5-flash')
-
-#promp = ""
-#for i in sys.argv[1:]:
-#    promp+=i+' '
-
-#response = model.generate_content('Rol: eres un asistente personal, y explicas de forma breve en 2 o 3 parrafos \nuser:'+promp)
-
-#print(light_blue('Usuarios:'),promp)
-#print(light_red('Gemini:'),response.text)
-
+promp = parser.argsr['prompt']
+#if len(promp) > 1:
+#    response = doRequest(promp)
+#    print(light_blue('TU:'),promp)
+#    print(light_red(data['NAME']+':'),response.text)
