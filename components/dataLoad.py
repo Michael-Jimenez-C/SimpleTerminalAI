@@ -21,7 +21,9 @@ class Data:
     def write(self, json_):
         with open(FILE,'w') as file:
             json.dump(json_,file)
-        self.read()
+    
+    def save(self):
+        self.write(self.data)
     
     def __getitem__(self,index):
         if index in self.data:
