@@ -1,3 +1,4 @@
+#!./venv/bin/python
 import sys
 from colors import light_blue, light_red, red, green
 from components import doRequest, Data
@@ -14,7 +15,7 @@ def init():
     "NAME":"Gemini"
     }
     DATA.write(preferences)
-    print('Archivos generados correctamente')
+    print('Archivos generados correctamente, use %s --t para fijar su api key de gemini'%sys.argv[0])
     sys.exit(0)
     
 def config_rol():
@@ -71,9 +72,6 @@ if __name__=='__main__':
         if option =='--configure':
             configure()
 
-    
-
-
 
     if len(args) == 0:
         print(red('No puede mandar una consulta vacia'))
@@ -83,6 +81,6 @@ if __name__=='__main__':
     while args:
         promp+=args.pop(0)+" "
     if len(promp) > 1:
-        response = doRequest(promp)
+    #    response = doRequest(promp)
         print(light_blue('TU:'),promp)
-        print(light_red(DATA['NAME']+':'),response.text)
+    #    print(light_red(DATA['NAME']+':'),response.text)
