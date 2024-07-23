@@ -3,6 +3,6 @@
 
 source /usr/share/ai-assistant/venv/bin/activate
 
-python ai "$@"
+python /usr/share/ai-assistant/ai "$@"
 
 deactivate

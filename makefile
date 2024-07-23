@@ -1,18 +1,33 @@
+DIR=/usr/share/ai-assistant
+SYMLINK=/usr/local/bin/ai
+
+
+all:
+	@echo si no se ejecuta, usa make clean, make install
+
+clean:
+	@if [ -f $(SYMLINK) ]; then rm $(SYMLINK); fi
+
 install:
-        mkdir -p /usr/share/ai-assistant
-        cp -r . /usr/share/ai-assistant/
-        chmod +x /usr/share/ai-assistant/ai.sh
-        ln -s /usr/share/ai-assistant/ai.sh /usr/local/bin/ai
-        python3 -m venv /usr/share/ai-assistant/venv
-        
-        echo "source /usr/share/ai-assistant/venv/bin/activate" > /usr/share/ai-assistant/config
-        echo "pip install -r requeriments.txt" >> /usr/share/ai-assistant/config
-        echo "deactivate" >> /usr/share/ai-assistant/config
-        
-        chmod +x /usr/share/ai-assistant/config
+	@echo Instalando
+	mkdir -p $(DIR)
+	cp -r . $(DIR)/
+	chmod +x $(DIR)/ai.sh
+	ln -s $(DIR)/ai.sh $(SYMLINK)
+	python3 -m venv $(DIR)/venv
+	
+	echo "source $(DIR)/venv/bin/activate" > $(DIR)/config
+	echo "pip install -r requeriments.txt" >> $(DIR)/config
+	echo "deactivate" >> $(DIR)/config
+	
+	chmod +x $(DIR)/config
+	
+	/bin/bash $(DIR)/config
+	
+	rm $(DIR)/config
 
-        /bin/bash /usr/share/ai-assistant/config
+uninstall:
+	@rm $(SYMLINK)
+	@rm -r $(DIR)
 
-        rm /usr/share/ai-assistant/config
-
-.PHONY: install
+.PHONY: clean install
