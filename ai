@@ -1,35 +1,88 @@
-#!/usr/bin/python3.11
 import sys
 from colors import light_blue, light_red, red, green
-from components import Parser, doRequest, Data
+from components import doRequest, Data
+import getopt
+import os
 
-data = Data.get()
+DATA = Data.get()
 
-args = sys.argv[1:]
-
-if len(args) == 0:
-    print(red('No puede mandar una consulta vacia'))
-    sys.exit(1)
-
-
-parser = Parser()
-parser.parse(list(args))
-
-print(parser.argsr)
-
-if '-i' in parser.argsr or '--init' in parser.argsr:
-    print('Configuración del asistente')
-    pass
+def init():
+    preferences = {
+    "Model":"gemini-1.5-flash",
+    "API_KEY":"",
+    "AI_ROL": "eres un asistente personal, y explicas de forma breve en 2 o 3 parrafos",
+    "NAME":"Gemini"
+    }
+    DATA.write(preferences)
+    print('Archivos generados correctamente')
+    sys.exit(0)
+    
+def config_rol():
+    DATA.read()
+    print('El rol actual es')
+    print(DATA['AI_ROL'])
+    print('Escriba a continuación el nuevo rol')
+    rol = input()
+    DATA.data['AI_ROL'] = rol
+    DATA.save()
     sys.exit(0)
 
-if '-o' in parser.argsr:
-    print('A continuación digite la',green("API_KEY"))
-    token = input(green('TOKEN:'))
+def config_token():
+    DATA.read()
+    print('A continuación escriba o pegue la nueva token')
+    DATA.data['API_KEY'] = input()
+    DATA.save()
+    sys.exit(0)
+
+def configure():
+    print('seleccione el editor \n1: nano\n2: vim')
+    while((inp:=input()) not in ('1','2')):
+        print('por favor ingrese el valor de nuevo')
+    if inp=='1':
+        os.system('nano preferences.json')
+    else:
+        os.system('vim preferences.json')
     sys.exit(0)
 
 
-promp = parser.argsr['prompt']
-#if len(promp) > 1:
-#    response = doRequest(promp)
-#    print(light_blue('TU:'),promp)
-#    print(light_red(data['NAME']+':'),response.text)
+if __name__=='__main__':
+    try:
+        opts, args = getopt.getopt(sys.argv[1:], 'ict',['init','s2t','configure'])
+    except getopt.error as msg:
+        print(red(msg))
+        print("""usage: %s [OPTIONS] TEXT
+        OPTIONS
+
+            -i	--init				Create the config file for this aplication
+            -c						Configure the default promt for the AI, changing the behaviour of the AI
+            -t						Configure the API-KEY
+                --s2t				Speech to text ui
+                --configure			Open the configuration file
+        """%sys.argv[0])
+        sys.exit(2)
+    
+    for option, value in opts:
+        if option in ('-i','--init'):
+            init()
+        if option == '-c':
+            config_rol()
+        if option == '-t':
+            config_token()
+        if option =='--configure':
+            configure()
+
+    
+
+
+
+    if len(args) == 0:
+        print(red('No puede mandar una consulta vacia'))
+        sys.exit(1)
+
+    promp = ""
+    while args:
+        promp+=args.pop(0)+" "
+    if len(promp) > 1:
+        response = doRequest(promp)
+        print(light_blue('TU:'),promp)
+        print(light_red(DATA['NAME']+':'),response.text)
