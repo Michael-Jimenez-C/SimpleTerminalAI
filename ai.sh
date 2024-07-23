@@ -1,6 +1,7 @@
 #!/bin/bash
 
-source venv/bin/activate
+
+source /usr/share/ai-assistant/venv/bin/activate
 
 python ai "$@"
 
