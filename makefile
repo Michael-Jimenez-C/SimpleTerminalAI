@@ -9,7 +9,6 @@ clean:
 	@if [ -f $(SYMLINK) ]; then rm $(SYMLINK); fi
 
 install:
-	@echo Instalando
 	mkdir -p $(DIR)
 	cp -r . $(DIR)/
 	chmod +x $(DIR)/ai.sh
@@ -21,13 +20,14 @@ install:
 	echo "deactivate" >> $(DIR)/config
 	
 	chmod +x $(DIR)/config
-	
 	/bin/bash $(DIR)/config
 	
 	rm $(DIR)/config
 
 uninstall:
-	@rm $(SYMLINK)
-	@rm -r $(DIR)
-
+	
+	HOMEDIR=/home/$(SUDO_USER)
+	@if [ -d $(DIR) ]; then rm -r $(DIR); fi
+	@if [ -d $(HOMEDIR)/.config/ai-assistant ]; then rm -r $(HOMEDIR)/.config/ai-assistant; fi
+	@if [ -f $(SYMLINK) ]; then rm $(SYMLINK); fi
 .PHONY: clean install

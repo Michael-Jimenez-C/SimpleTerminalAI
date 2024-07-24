@@ -1,6 +1,12 @@
 import json
+import os
 
-FILE = 'preferences.json'
+PATH= f'{os.environ.get("HOME")}/.config/ai-assistant'
+
+if not os.path.exists(PATH):
+    os.system(f"mkdir -p {PATH}")
+
+FILE = PATH+'/preferences.json'
 
 class Data:
     dataInst = None

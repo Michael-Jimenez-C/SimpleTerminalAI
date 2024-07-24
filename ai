@@ -7,6 +7,16 @@ import os
 
 DATA = Data.get()
 
+HELP = """usage: %s [OPTIONS] TEXT
+        OPTIONS
+
+            -i	--init				Create the config file for this aplication
+            -c						Configure the default promt for the AI, changing the behaviour of the AI
+            -t						Configure the API-KEY
+                --s2t				Speech to text ui
+                --configure			Open the configuration file
+        """%sys.argv[0]
+
 def init():
     preferences = {
     "Model":"gemini-1.5-flash",
@@ -15,7 +25,7 @@ def init():
     "NAME":"Gemini"
     }
     DATA.write(preferences)
-    print('Archivos generados correctamente, use %s --t para fijar su api key de gemini'%sys.argv[0])
+    print('Archivos generados correctamente, use %s -t para fijar su api key de gemini'%sys.argv[0])
     sys.exit(0)
     
 def config_rol():
@@ -48,18 +58,10 @@ def configure():
 
 if __name__=='__main__':
     try:
-        opts, args = getopt.getopt(sys.argv[1:], 'ict',['init','s2t','configure'])
+        opts, args = getopt.getopt(sys.argv[1:], 'icth',['init','s2t','configure','help'])
     except getopt.error as msg:
         print(red(msg))
-        print("""usage: %s [OPTIONS] TEXT
-        OPTIONS
-
-            -i	--init				Create the config file for this aplication
-            -c						Configure the default promt for the AI, changing the behaviour of the AI
-            -t						Configure the API-KEY
-                --s2t				Speech to text ui
-                --configure			Open the configuration file
-        """%sys.argv[0])
+        print(HELP)
         sys.exit(2)
     
     for option, value in opts:
@@ -71,6 +73,9 @@ if __name__=='__main__':
             config_token()
         if option =='--configure':
             configure()
+        if option in ('-h','--help'):
+            print(HELP)
+            sys.exit(0)
 
 
     if len(args) == 0:
