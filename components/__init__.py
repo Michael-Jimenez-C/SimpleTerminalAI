@@ -1,2 +1,2 @@
-from .dataLoad import Data
-from .AIConnection import doRequest
+from .dataLoad import Data, PATH, FILE
+from .AIConnection import AI
