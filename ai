@@ -5,8 +5,11 @@ from components import AI, Data, FILE, PATH
 import getopt
 import os
 import pickle
+from threading import Thread
+import time
 
 
+ACTIVE = True
 DATA = Data.get()
 
 HELP = """Usage: %s [OPTIONS] TEXT
@@ -32,7 +35,7 @@ def init():
     print('Archivos generados correctamente, use %s -t para fijar su api key de gemini'%sys.argv[0])
     print(FILE)
     sys.exit(0)
-    
+
 def config_rol():
     DATA.read()
     print('El rol actual es')
@@ -67,6 +70,7 @@ def toggle_hist():
     sys.exit(0)
 
 def message(promp_):
+    global ACTIVE
     DATA.read()
     promp = []
     file = PATH+'.history'
@@ -74,10 +78,10 @@ def message(promp_):
     if os.path.exists(file) and DATA['HIST']:
         with open(file,'rb') as f:
             promp = pickle.load(f)
-
-    promp.append(
-        {'role':'user',
-         'parts': ['your rol:'+DATA['AI_ROL']]})
+    else:
+        promp.append(
+            {'role':'user',
+            'parts': ['your rol:'+DATA['AI_ROL']]})
 
     promp.append(
             {
@@ -88,7 +92,7 @@ def message(promp_):
 
     ai = AI()
     response = ai.doRequest(promp)
-    
+
     promp.append({
         'role':'model',
         'parts': [response.text]
@@ -98,8 +102,27 @@ def message(promp_):
             pickle.dump(promp,f)
             f.close()
 
-    print(light_blue('TU:'),promp_)
-    print(light_red(DATA['NAME']+':'),response.text)
+    text = ""
+    try:
+        text = response.text
+    except:
+        pass
+    finally:
+        ACTIVE = False
+        time.sleep(.5)
+        print(light_blue('TU:'),promp_)
+        print(light_red(DATA['NAME']+':'),text)
+
+def bar():
+    global ACTIVE
+    i = 0
+    while ACTIVE:
+        i = (i%3)+1
+        time.sleep(0.1)
+        sys.stdout.write("\rPensando "+("."*(i)).ljust(3,' '))
+        sys.stdout.flush()
+    sys.stdout.write("\r".ljust(40,' ')+'\n')
+    sys.stdout.flush()
 
 if __name__=='__main__':
     try:
@@ -108,7 +131,7 @@ if __name__=='__main__':
         print(red(msg))
         print(HELP)
         sys.exit(2)
-    
+
     for option, value in opts:
         if option in ('-i','--init'):
             init()
@@ -133,4 +156,5 @@ if __name__=='__main__':
     while args:
         promp+=args.pop(0)+" "
     if len(promp) > 1:
+        Thread(target = bar).start()
         message([promp])
