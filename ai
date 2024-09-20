@@ -1,5 +1,6 @@
 #!./venv/bin/python
 import sys
+from typing_extensions import runtime
 from colors import light_blue, light_red, red, green
 from components import AI, Data, FILE, PATH
 import getopt
@@ -71,7 +72,11 @@ def toggle_hist():
 
 def message(promp_):
     global ACTIVE
-    DATA.read()
+    try:
+        DATA.read()
+    except:
+        ACTIVE = False
+        raise RuntimeError('Can\'t opens preferences file')
     promp = []
     file = PATH+'.history'
 
