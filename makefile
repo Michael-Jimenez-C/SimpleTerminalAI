@@ -16,7 +16,7 @@ install:
 	python3 -m venv $(DIR)/venv
 
 	echo "source $(DIR)/venv/bin/activate" > $(DIR)/config
-	echo "pip install -r requeriments.txt" >> $(DIR)/config
+	echo "pip install -r requirements.txt" >> $(DIR)/config
 	echo "deactivate" >> $(DIR)/config
 
 	chmod +x $(DIR)/config
