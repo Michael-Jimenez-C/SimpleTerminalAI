@@ -1,19 +1,19 @@
 # SimpleTerminalAssistant
-Simple assistant for the linux terminal using gemini
+Simple assistant for the linux terminal using gemini, this is a simple program that use the gemini API and a history file or a role string to make the gemini LLM configurable
 
 
 ## Instalation
-requeriments
+Requirements
 - python>=3.10
 - python3-venv
 - make
 
-clone the repo and use make to install it or move to any directory and add to the path
+Clone the repo and use make to install it or move to any directory and add to the path
 
 ### Make
 ```sh
-make clean
-make install
+sudo make clean
+sudo make install
 ```
 this will create a symbolic link to the ai.sh into /usr/local/bin
 
@@ -21,22 +21,31 @@ this will create a symbolic link to the ai.sh into /usr/local/bin
 
 when you install it you must configure your API_KEY from gemini, https://aistudio.google.com/app/pro
 then type
-```
+```sh
 ai -i
 ai -t
 ```
 -i flag will create a preferences file and -t is used to configure the API_KEY
 
 To configure the behavior of gemini
-```
+```sh
 ai -c
 ```
 
 to a normal use is
-```
+```sh
 ai <prompt>
 ```
 
+
+If you want to clear the history:
+```sh
+ai --clean
+```
+And to disable the history file:
+```sh
+ai --toggle_hist
+```
 # Uninstall
 
 use
