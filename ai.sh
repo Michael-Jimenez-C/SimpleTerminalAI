@@ -1,8 +1,8 @@
 #!/bin/bash
 
 
-source /usr/share/ai-assistant/venv/bin/activate
+source $HOME/.local/ai-assistant/venv/bin/activate
 
-python /usr/share/ai-assistant/ai "$@"
+python $HOME/.local/ai-assistant/ai "$@"
 
 deactivate
