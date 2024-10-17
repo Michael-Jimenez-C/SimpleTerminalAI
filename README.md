@@ -9,7 +9,11 @@ Requirements
 - make
 
 Clone the repo and use make to install it or move to any directory and add to the path
-
+### Install
+```sh
+chmod +x install.sh
+sudo ./install.sh
+```
 ### Make
 ```sh
 sudo make clean
@@ -52,6 +56,11 @@ use
 
 ```sh
 make uninstall
+```
+
+```sh
+chmod +x uninstall.sh
+./uninstall.sh
 ```
 or
 ```
